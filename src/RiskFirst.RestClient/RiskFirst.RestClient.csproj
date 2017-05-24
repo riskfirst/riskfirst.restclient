@@ -11,8 +11,9 @@
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>0.0.1</Version>
-    <PackageReleaseNotes>v0.0.1 - initial release</PackageReleaseNotes>
+    <Version>0.0.2</Version>
+    <PackageReleaseNotes>v0.0.1 - Initial release
+v0.0.2 - Changed usage of HttpClient, normalised With* methods.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

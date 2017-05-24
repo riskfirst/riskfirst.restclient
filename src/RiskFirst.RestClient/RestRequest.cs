@@ -2,91 +2,145 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 
 namespace RiskFirst.RestClient
 {
     public class RestRequest
-    {
+    {        
         private readonly UriBuilder uriBuilder;
         private Dictionary<string, IEnumerable<string>> headers = new Dictionary<string, IEnumerable<string>>();
-        private CancellationTokenSource cancelSource = new CancellationTokenSource();
+        
         private RestRequest(Uri baseUri)
         {
             this.uriBuilder = new UriBuilder(baseUri);
         }
-        public IReadOnlyDictionary<string, IEnumerable<string>> Headers
+
+        /// <summary>
+        /// Construct an instance of RestRequest from a Uri
+        /// </summary>
+        /// <param name="uri">The uri to base the request from</param>
+        /// <returns>RestRequest</returns>
+        public static RestRequest FromUri(Uri uri)
+        {
+            return new RestRequest(uri);
+        }
+
+        internal IReadOnlyDictionary<string, IEnumerable<string>> Headers
         {
             get { return new ReadOnlyDictionary<string, IEnumerable<string>>(this.headers); }
         }
 
-        public Uri Uri
+        internal Uri Uri
         {
             get { return uriBuilder.Uri; }
         }
 
-        public CancellationToken CancellationToken
-        {
-            get { return this.cancelSource.Token; }
-        }
-
+        /// <summary>
+        ///  Adds a specified key/value to the request header
+        /// </summary>
+        /// <param name="key">Header key</param>
+        /// <param name="value">Header value</param>
+        /// <returns>Current RestRequest instance</returns>
         public RestRequest WithHeader(string key, string value)
         {
             return WithHeader(key, new[] { value });
         }
 
+        /// <summary>
+        ///  Adds a specified key/list of values to the request header
+        /// </summary>
+        /// <param name="key">Header key</param>
+        /// <param name="value">Header values</param>
+        /// <returns>Current RestRequest instance</returns>
         public RestRequest WithHeader(String key, IEnumerable<string> values)
         {
             this.headers.Add(key, values);
             return this;
         }
 
+        /// <summary>
+        ///  Adds a bearer token to the request header
+        /// </summary>
+        /// <param name="token">The bearer token to add to the request</param>
+        /// <returns>Current RestRequest instance</returns>
         public RestRequest WithBearerToken(string token)
         {
             return WithHeader("Authorization", $"bearer {token}");
-        }  
-        
-        public RestRequest WithCancellationTokenSource(CancellationTokenSource source)
-        {
-            this.cancelSource = source;
-            return this;
         }
 
-        public static RestRequest FromUri(Uri uri)
-        {
-            return new RestRequest(uri);
-        }
-
-        public RestRequest AppendPathSegment(string segment)
+        /// <summary>
+        /// Adds a single path segment to the request Uri
+        /// </summary>
+        /// <param name="segment">The segment to add</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithPathSegment(string segment)
         {
             this.uriBuilder.Path += segment;
             return this;
         }
-        public RestRequest AppendPathSegments(params object[] segments)
+
+        /// <summary>
+        /// Adds one or more path segments to the request Uri
+        /// </summary>
+        /// <param name="segments">The path segments to add</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithPathSegments(params object[] segments)
         {
-            AppendPathSegments(segments.Select(s => s == null ? String.Empty : s.ToString()));
-            return this;
+            return WithPathSegments(segments.Select(s => s == null ? String.Empty : s.ToString()));
         }
 
-        public RestRequest AppendPathSegments(IEnumerable<string> segments)
+        /// <summary>
+        /// Adds an enumerable list of segments to the request Uri
+        /// </summary>
+        /// <param name="segments">The path segments to add</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithPathSegments(IEnumerable<string> segments)
         {
             this.uriBuilder.Path += String.Join("/", segments);
             return this;
         }
 
-        public RestRequest SetQueryParameter(string param, string value)
+        /// <summary>
+        /// Adds a single parameter to the query part of the request
+        /// </summary>
+        /// <param name="param">The parameter name</param>
+        /// <param name="value">The parameter value</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithQueryParameter(string param, string value)
         {
             this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
                 ? $"{param}={value}" : $"&{param}={value}";
             return this;
         }
 
-        public RestRequest SetQueryParameters(object values)
+        /// <summary>
+        /// Adds parameter(s) to the request from any object
+        /// </summary>
+        /// <remarks>
+        /// All public properties are added to the query
+        /// </remarks>
+        /// <param name="values">Any object to add to the parameters</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithQueryParameters(object values)
         {
             var props = values.GetType().GetProperties();
             foreach (var prop in props)
-                SetQueryParameter(prop.Name, prop.GetValue(values, null)?.ToString());
+                WithQueryParameter(prop.Name, prop.GetValue(values, null)?.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Adds parameter(s) to the request from a dictionary
+        /// </summary>
+        /// <param name="values">dictionary of key/value to add to the query</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithQueryParameters(IDictionary<string,string> values)
+        {
+            foreach (var kv in values)
+                WithQueryParameter(kv.Key, kv.Value);
             return this;
         }
     }

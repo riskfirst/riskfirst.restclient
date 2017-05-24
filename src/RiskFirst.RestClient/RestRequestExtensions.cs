@@ -3,26 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RiskFirst.RestClient
 {
     public static class RestRequestExtensions
     {
+        private static HttpClient DefaultHttpClient = new HttpClient(); 
         /// <summary>
         ///     Execute a get request from the specified rest client
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> GetAsync(this RestRequest request)
+        public static async Task<HttpResponseMessage> GetAsync(this RestRequest request, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    AddHeadersToClient(request.Headers, client);
-                    return await client.GetAsync(request.Uri,request.CancellationToken);
-                }
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, request.Uri);
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -35,16 +36,14 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> HeadAsync(this RestRequest request)
+        public static async Task<HttpResponseMessage> HeadAsync(this RestRequest request, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    AddHeadersToClient(request.Headers, client);
-                    var requestMsg = new HttpRequestMessage(HttpMethod.Head, request.Uri);
-                    return await client.SendAsync(requestMsg, HttpCompletionOption.ResponseHeadersRead, request.CancellationToken);
-                }
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(HttpMethod.Head, request.Uri);
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken);                
             }
             catch (Exception ex)
             {
@@ -57,15 +56,14 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> DeleteAsync(this RestRequest request)
+        public static async Task<HttpResponseMessage> DeleteAsync(this RestRequest request, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    AddHeadersToClient(request.Headers, client);
-                    return await client.DeleteAsync(request.Uri, request.CancellationToken);
-                }
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, request.Uri);
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);                
             }
             catch (Exception ex)
             {
@@ -74,22 +72,24 @@ namespace RiskFirst.RestClient
         }
 
         /// <summary>
-        ///     Execute a put request from the specified rest client and body
+        ///     Execute a post request from the specified rest client and body
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PostJsonAsync<T>(this RestRequest request, T body)
+        public static async Task<HttpResponseMessage> PostJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var content = new StringContent(
                     JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
-
+            
             try
             {
-                using (var client = new HttpClient())
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, request.Uri)
                 {
-                    AddHeadersToClient(request.Headers, client);
-                    return await client.PostAsync(request.Uri, content, request.CancellationToken);
-                }
+                    Content = content
+                };
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -102,18 +102,20 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body)
+        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var content = new StringContent(
                     JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
-
+            
             try
             {
-                using (var client = new HttpClient())
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(HttpMethod.Put, request.Uri)
                 {
-                    AddHeadersToClient(request.Headers, client);
-                    return await client.PutAsync(request.Uri, content, request.CancellationToken);
-                }
+                    Content = content
+                };
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
             }
             catch (Exception ex)
             {
@@ -126,22 +128,20 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body)
+        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var content = new StringContent(
                     JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
 
             try
             {
-                using (var client = new HttpClient())
+                var client = httpClient ?? DefaultHttpClient;
+                var requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), request.Uri)
                 {
-                    AddHeadersToClient(request.Headers, client);
-                    var requestMsg = new HttpRequestMessage(new HttpMethod("PATCH"), request.Uri)
-                    {
-                        Content = content
-                    };
-                    return await client.SendAsync(requestMsg, request.CancellationToken);
-                }
+                    Content = content
+                };
+                AddHeadersToRequest(request.Headers, requestMessage);
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
             }
             catch (Exception ex)
             {
@@ -149,10 +149,11 @@ namespace RiskFirst.RestClient
             }
         }
 
-        private static void AddHeadersToClient(IReadOnlyDictionary<string, IEnumerable<string>> headers, HttpClient client)
+
+        private static void AddHeadersToRequest(IReadOnlyDictionary<string, IEnumerable<string>> headers, HttpRequestMessage message)
         {
             foreach (var header in headers)
-                client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                message.Headers.Add(header.Key, header.Value);
         }
     }
 }
