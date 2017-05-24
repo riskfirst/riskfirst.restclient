@@ -9,12 +9,12 @@ namespace RiskFirst.RestClient
 {
     public static class HttpResponseExtensions
     {
-        public static async Task<T> ReceiveJsonAsync<T>(this Task<HttpResponseMessage> message)
+        public static async Task<T> ReceiveJsonAsync<T>(this Task<HttpResponseMessage> message,JsonSerializerSettings settings = null)
         {
             var response = await message.ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync(), settings);
             }
             throw new RestResponseException(response.StatusCode, response.ReasonPhrase);
         }
