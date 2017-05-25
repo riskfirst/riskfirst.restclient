@@ -47,7 +47,7 @@ namespace RiskFirst.RestClient
             }
             catch (Exception ex)
             {
-                throw new RestClientException($"Failed to execute get request to {request.Uri.AbsoluteUri}", ex);
+                throw new RestClientException($"Failed to execute head request to {request.Uri.AbsoluteUri}", ex);
             }
         }
 
@@ -67,7 +67,7 @@ namespace RiskFirst.RestClient
             }
             catch (Exception ex)
             {
-                throw new RestClientException($"Failed to execute get request to {request.Uri.AbsoluteUri}", ex);
+                throw new RestClientException($"Failed to execute delete request to {request.Uri.AbsoluteUri}", ex);
             }
         }
 
@@ -119,7 +119,7 @@ namespace RiskFirst.RestClient
             }
             catch (Exception ex)
             {
-                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+                throw new RestClientException($"Failed to execute put request to {request.Uri.AbsoluteUri}", ex);
             }
         }
 
@@ -145,7 +145,7 @@ namespace RiskFirst.RestClient
             }
             catch (Exception ex)
             {
-                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+                throw new RestClientException($"Failed to execute patch request to {request.Uri.AbsoluteUri}", ex);
             }
         }
 
