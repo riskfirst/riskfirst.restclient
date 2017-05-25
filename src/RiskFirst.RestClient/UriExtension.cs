@@ -8,7 +8,7 @@ namespace RiskFirst.RestClient
 {
     public static class UriExtensions
     {
-        public static RestRequest AsRestRequest(this Uri uri, HttpClient httpClient = null, CancellationTokenSource cancellationSource = null)
+        public static RestRequest AsRestRequest(this Uri uri)
         {
             return RestRequest.FromUri(uri);
         }
