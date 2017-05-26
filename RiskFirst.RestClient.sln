@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{493B5440-D9C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiskFirst.RestClient", "src\RiskFirst.RestClient\RiskFirst.RestClient.csproj", "{1BAA08DF-F6E6-4699-ADBC-E568D53990C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1D2D9C85-FA69-4772-8B96-86F7EB4CBFAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiskFirst.RestClient.Tests", "tests\RiskFirst.RestClient.Tests\RiskFirst.RestClient.Tests.csproj", "{AD433D7A-26FA-40F3-BD57-2F13A5876163}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,11 +30,16 @@ Global
 		{1BAA08DF-F6E6-4699-ADBC-E568D53990C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BAA08DF-F6E6-4699-ADBC-E568D53990C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BAA08DF-F6E6-4699-ADBC-E568D53990C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD433D7A-26FA-40F3-BD57-2F13A5876163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD433D7A-26FA-40F3-BD57-2F13A5876163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD433D7A-26FA-40F3-BD57-2F13A5876163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD433D7A-26FA-40F3-BD57-2F13A5876163}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BAA08DF-F6E6-4699-ADBC-E568D53990C7} = {493B5440-D9C2-41B0-8FAE-00387C36C960}
+		{AD433D7A-26FA-40F3-BD57-2F13A5876163} = {1D2D9C85-FA69-4772-8B96-86F7EB4CBFAD}
 	EndGlobalSection
 EndGlobal

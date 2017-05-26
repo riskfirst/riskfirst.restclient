@@ -78,7 +78,11 @@ namespace RiskFirst.RestClient
         /// <returns>Current RestRequest instance</returns>
         public RestRequest WithPathSegment(string segment)
         {
+            if(!string.IsNullOrEmpty(uriBuilder.Path) && !this.uriBuilder.Path.EndsWith("/"))
+                this.uriBuilder.Path += "/";
+
             this.uriBuilder.Path += segment;
+
             return this;
         }
 
@@ -99,6 +103,9 @@ namespace RiskFirst.RestClient
         /// <returns>Current RestRequest instance</returns>
         public RestRequest WithPathSegments(IEnumerable<string> segments)
         {
+            if (!string.IsNullOrEmpty(uriBuilder.Path) && !this.uriBuilder.Path.EndsWith("/"))
+                this.uriBuilder.Path += "/";
+
             this.uriBuilder.Path += String.Join("/", segments);
             return this;
         }
@@ -109,10 +116,10 @@ namespace RiskFirst.RestClient
         /// <param name="param">The parameter name</param>
         /// <param name="value">The parameter value</param>
         /// <returns>Current RestRequest instance</returns>
-        public RestRequest WithQueryParameter(string param, string value)
+        public RestRequest WithQueryParameter(string param, object value)
         {
             this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
-                ? $"{param}={value}" : $"&{param}={value}";
+                ? $"{param}={value}" : $"&{param}={value?.ToString()}";
             return this;
         }
 
@@ -137,10 +144,10 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="values">dictionary of key/value to add to the query</param>
         /// <returns>Current RestRequest instance</returns>
-        public RestRequest WithQueryParameters(IDictionary<string,string> values)
+        public RestRequest WithQueryParameters(IDictionary<string,object> values)
         {
             foreach (var kv in values)
-                WithQueryParameter(kv.Key, kv.Value);
+                WithQueryParameter(kv.Key, kv.Value?.ToString());
             return this;
         }
     }
