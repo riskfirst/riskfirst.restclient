@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
     <Authors>Jamie Cohen</Authors>
     <Company>RiskFirst</Company>
     <Description>A simple rest client using a fluent inteface</Description>
@@ -11,12 +11,13 @@
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageReleaseNotes>v0.0.1 - Initial release
 v0.0.2 - Changed usage of HttpClient, normalised With* methods.
-v1.0.0 - First release</PackageReleaseNotes>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+v1.0.0 - First release
+v1.0.1 - Target .NET Standard</PackageReleaseNotes>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

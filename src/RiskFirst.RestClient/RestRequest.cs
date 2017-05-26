@@ -126,7 +126,7 @@ namespace RiskFirst.RestClient
         /// <returns>Current RestRequest instance</returns>
         public RestRequest WithQueryParameters(object values)
         {
-            var props = values.GetType().GetProperties();
+            var props = values.GetType().GetTypeInfo().DeclaredProperties;
             foreach (var prop in props)
                 WithQueryParameter(prop.Name, prop.GetValue(values, null)?.ToString());
             return this;
