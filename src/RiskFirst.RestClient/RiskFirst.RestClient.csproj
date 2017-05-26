@@ -19,6 +19,8 @@ v1.0.1 - Target .NET Standard
 v1.0.2 - Changed query parameters to accept object values</PackageReleaseNotes>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <FileVersion>1.0.2.0</FileVersion>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>RiskFirst.RestClient.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
