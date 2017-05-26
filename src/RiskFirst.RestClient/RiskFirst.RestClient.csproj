@@ -7,13 +7,16 @@
     <Description>A simple rest client using a fluent inteface</Description>
     <PackageLicenseUrl>https://github.com/riskfirst/riskfirst.restclient/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/riskfirst/riskfirst.restclient</PackageProjectUrl>
-    <PackageIconUrl>https://www.riskfirst.com/media/1207/riskfirst-logo.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/riskfirst/pkgicons/master/riskfirst-pkg.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>0.0.2</Version>
+    <Version>1.0.0</Version>
     <PackageReleaseNotes>v0.0.1 - Initial release
-v0.0.2 - Changed usage of HttpClient, normalised With* methods.</PackageReleaseNotes>
+v0.0.2 - Changed usage of HttpClient, normalised With* methods.
+v1.0.0 - First release</PackageReleaseNotes>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
