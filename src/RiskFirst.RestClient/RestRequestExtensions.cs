@@ -11,6 +11,24 @@ namespace RiskFirst.RestClient
     public static class RestRequestExtensions
     {
         private static HttpClient DefaultHttpClient = new HttpClient(); 
+
+        /// <summary>
+        /// Creates the bare HttpRequestMessage from the rest request
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <param name="method">The http method to use</param>
+        /// <returns></returns>
+        public static HttpRequestMessage CreateRequestMessage(this RestRequest request, HttpMethod method, HttpContent content = null)
+        {
+            var message = new HttpRequestMessage(method, request.Uri)
+            {
+                Content = content
+            };
+            foreach (var header in request.Headers)
+                message.Headers.Add(header.Key, header.Value);
+            return message;
+        }
+
         /// <summary>
         ///     Execute a get request from the specified rest client
         /// </summary>
@@ -20,9 +38,8 @@ namespace RiskFirst.RestClient
         {
             try
             {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Get);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, request.Uri);
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
@@ -40,9 +57,8 @@ namespace RiskFirst.RestClient
         {
             try
             {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Head);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(HttpMethod.Head, request.Uri);
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken);                
             }
             catch (Exception ex)
@@ -60,9 +76,8 @@ namespace RiskFirst.RestClient
         {
             try
             {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Delete);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, request.Uri);
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);                
             }
             catch (Exception ex)
@@ -83,12 +98,8 @@ namespace RiskFirst.RestClient
             
             try
             {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Post, content);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, request.Uri)
-                {
-                    Content = content
-                };
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
@@ -109,12 +120,8 @@ namespace RiskFirst.RestClient
             
             try
             {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Put, content);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(HttpMethod.Put, request.Uri)
-                {
-                    Content = content
-                };
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
             }
             catch (Exception ex)
@@ -135,25 +142,14 @@ namespace RiskFirst.RestClient
 
             try
             {
+                var requestMessage = request.CreateRequestMessage(new HttpMethod("PATCH"), content);
                 var client = httpClient ?? DefaultHttpClient;
-                var requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), request.Uri)
-                {
-                    Content = content
-                };
-                AddHeadersToRequest(request.Headers, requestMessage);
                 return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
             }
             catch (Exception ex)
             {
                 throw new RestClientException($"Failed to execute patch request to {request.Uri.AbsoluteUri}", ex);
             }
-        }
-
-
-        private static void AddHeadersToRequest(IReadOnlyDictionary<string, IEnumerable<string>> headers, HttpRequestMessage message)
-        {
-            foreach (var header in headers)
-                message.Headers.Add(header.Key, header.Value);
-        }
+        }       
     }
 }
