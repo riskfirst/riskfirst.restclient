@@ -62,6 +62,31 @@ namespace RiskFirst.RestClient
         }
 
         /// <summary>
+        ///  Adds a set of values to the request header
+        /// </summary>
+        /// <param name="values">Any object to add to the headers</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithHeaders(object values)
+        {
+            var props = values.GetType().GetTypeInfo().DeclaredProperties;
+            foreach (var prop in props)
+                WithHeader(prop.Name, prop.GetValue(values, null)?.ToString());
+            return this;
+        }
+
+        /// <summary>
+        /// Adds parameter(s) to the header from a dictionary
+        /// </summary>
+        /// <param name="values">dictionary of key/value to add to the headers</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithHeaders(IDictionary<string, object> values)
+        {
+            foreach (var kv in values)
+                WithHeader(kv.Key, kv.Value?.ToString());
+            return this;
+        }
+
+        /// <summary>
         ///  Adds a bearer token to the request header
         /// </summary>
         /// <param name="token">The bearer token to add to the request</param>
