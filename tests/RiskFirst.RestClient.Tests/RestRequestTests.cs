@@ -77,6 +77,28 @@ namespace RiskFirst.RestClient.Tests
         }
 
         [Fact]
+        public void GivenMultipleQueryParameter_UriIsValid()
+        {
+            var req = new Uri(RootUri).AsRestRequest()
+                            .WithPathSegment("api")
+                            .WithQueryParameter("foo", "bar", "zoo")
+                            .CreateRequestMessage(HttpMethod.Get);
+
+            Assert.StrictEqual($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
+        }
+
+        [Fact]
+        public void GivenMultipleQueryParameterAsArray_UriIsValid()
+        {
+            var req = new Uri(RootUri).AsRestRequest()
+                            .WithPathSegment("api")
+                            .WithQueryParameter("foo", new[] { "bar", "zoo" })
+                            .CreateRequestMessage(HttpMethod.Get);
+
+            Assert.StrictEqual($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
+        }
+
+        [Fact]
         public void GivenQueryParameterWithNullValue_UriIsValid()
         {
             var req = new Uri(RootUri).AsRestRequest()

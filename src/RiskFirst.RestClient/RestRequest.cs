@@ -135,30 +135,38 @@ namespace RiskFirst.RestClient
             return this;
         }
 
-        /// <summary>
-        /// Adds a single parameter to the query part of the request
-        /// </summary>
-        /// <param name="param">The parameter name</param>
-        /// <param name="value">The parameter value</param>
-        /// <returns>Current RestRequest instance</returns>
-        public RestRequest WithQueryParameter(string param, object value)
-        {
-            this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
-                ? $"{param}={value}" : $"&{param}={value?.ToString()}";
-            return this;
-        }
+        ///// <summary>
+        ///// Adds a single parameter to the query part of the request
+        ///// </summary>
+        ///// <param name="param">The parameter name</param>
+        ///// <param name="value">The parameter value</param>
+        ///// <returns>Current RestRequest instance</returns>
+        //public RestRequest WithQueryParameter(string param, object value)
+        //{
+        //    this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
+        //        ? $"{param}={value}" : $"&{param}={value?.ToString()}";
+        //    return this;
+        //}
 
         /// <summary>
-        /// Adds a single parameter with multiple values to the query part of the request
+        /// Adds a single parameter with one or multiple values to the query part of the request
         /// </summary>
         /// <param name="param">The parameter name</param>
         /// <param name="value">The parameter value</param>
         /// <returns>Current RestRequest instance</returns>
-        public RestRequest WithQueryParameter(string param, IEnumerable<object> values)
+        public RestRequest WithQueryParameter(string param, params object[] values)
         {
-            var parameters = String.Join("&", values.Select(v => $"{param}={v?.ToString()}"));
-            this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
-                ? parameters : $"&{parameters}";
+            if (values != null && values.Length > 0)
+            {
+                var parameters = String.Join("&", values.Select(v => $"{param}={v?.ToString()}"));
+                this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
+                    ? parameters : $"&{parameters}";
+            }
+            else
+            {
+                this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
+                    ? $"{param}=" : $"&{param}=";
+            }
             return this;
         }
 
