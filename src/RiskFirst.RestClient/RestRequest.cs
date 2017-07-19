@@ -149,6 +149,20 @@ namespace RiskFirst.RestClient
         }
 
         /// <summary>
+        /// Adds a single parameter with multiple values to the query part of the request
+        /// </summary>
+        /// <param name="param">The parameter name</param>
+        /// <param name="value">The parameter value</param>
+        /// <returns>Current RestRequest instance</returns>
+        public RestRequest WithQueryParameter(string param, IEnumerable<object> values)
+        {
+            var parameters = String.Join("&", values.Select(v => $"{param}={v?.ToString()}"));
+            this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
+                ? parameters : $"&{parameters}";
+            return this;
+        }
+
+        /// <summary>
         /// Adds parameter(s) to the request from any object
         /// </summary>
         /// <remarks>
