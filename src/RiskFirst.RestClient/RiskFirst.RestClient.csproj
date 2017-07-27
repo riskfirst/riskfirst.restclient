@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
     <Authors>Jamie Cohen</Authors>
     <Company>RiskFirst</Company>
     <Description>A simple rest client using a fluent inteface</Description>
@@ -11,22 +11,27 @@
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>1.0.4</Version>
-    <PackageReleaseNotes>v0.0.1 - Initial release
-v0.0.2 - Changed usage of HttpClient, normalised With* methods.
-v1.0.0 - First release
-v1.0.1 - Target .NET Standard
-v1.0.2 - Changed query parameters to accept object values
-v1.0.3 - Added more support for headers
-v1.0.4 - Added support for multiple values for a given query parameter</PackageReleaseNotes>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <Version>1.0.5</Version>
+    <PackageReleaseNotes>
+      v0.0.1 - Initial release
+      v0.0.2 - Changed usage of HttpClient, normalised With* methods.
+      v1.0.0 - First release
+      v1.0.1 - Target .NET Standard
+      v1.0.2 - Changed query parameters to accept object values
+      v1.0.3 - Added more support for headers
+      v1.0.4 - Added support for multiple values for a given query parameter
+      v1.0.5 - Downgraded targetting to netstandard1.1;net45
+    </PackageReleaseNotes>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>RiskFirst.RestClient.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="newtonsoft.json" Version="10.0.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
 
 </Project>
