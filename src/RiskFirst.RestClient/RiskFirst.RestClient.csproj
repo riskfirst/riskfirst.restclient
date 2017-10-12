@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <PackageReleaseNotes>
       v0.0.1 - Initial release
       v0.0.2 - Changed usage of HttpClient, normalised With* methods.
@@ -21,9 +21,9 @@
       v1.0.3 - Added more support for headers
       v1.0.4 - Added support for multiple values for a given query parameter
       v1.0.5 - Downgraded targetting to netstandard1.1;net45
-    </PackageReleaseNotes>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+      v1.0.6 - Added Additional extension methods to support non JSON requests</PackageReleaseNotes>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>RiskFirst.RestClient.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>

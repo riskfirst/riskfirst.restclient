@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -87,7 +85,7 @@ namespace RiskFirst.RestClient
         }
 
         /// <summary>
-        ///     Execute a post request from the specified rest client and body
+        ///     Execute a post request from the specified rest client with the body serialized as JSON
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
@@ -95,7 +93,71 @@ namespace RiskFirst.RestClient
         {
             var content = new StringContent(
                     JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
-            
+
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Post, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Execute a put request from the specified rest client with the body serialized as JSON
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var content = new StringContent(
+                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
+
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Put, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute put request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Execute a patch request from the specified rest client with the body serialized as JSON
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var content = new StringContent(
+                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
+
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(new HttpMethod("PATCH"), content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute patch request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
+        /// <summary>
+        ///     Execute a post request from the specified rest client and body
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static async Task<HttpResponseMessage> PostAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+
             try
             {
                 var requestMessage = request.CreateRequestMessage(HttpMethod.Post, content);
@@ -113,16 +175,13 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpResponseMessage> PutAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var content = new StringContent(
-                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
-            
             try
             {
                 var requestMessage = request.CreateRequestMessage(HttpMethod.Put, content);
                 var client = httpClient ?? DefaultHttpClient;
-                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -135,21 +194,19 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpResponseMessage> PatchAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var content = new StringContent(
-                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
-
             try
             {
                 var requestMessage = request.CreateRequestMessage(new HttpMethod("PATCH"), content);
                 var client = httpClient ?? DefaultHttpClient;
-                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);               
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
             }
             catch (Exception ex)
             {
                 throw new RestClientException($"Failed to execute patch request to {request.Uri.AbsoluteUri}", ex);
             }
-        }       
+        }
+
     }
 }
