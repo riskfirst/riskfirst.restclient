@@ -19,6 +19,16 @@ namespace RiskFirst.RestClient
             throw new RestResponseException(response.StatusCode, response.ReasonPhrase);
         }
 
+        public static async Task<string> ReceiveStringAsync(this Task<HttpResponseMessage> message)
+        {
+            var response = await message.ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            throw new RestResponseException(response.StatusCode, response.ReasonPhrase);
+        }
+
         public static async Task<HttpResponseMessage> ReceiveAsync(this Task<HttpResponseMessage> message)
         {
             return await message.ConfigureAwait(false); ;

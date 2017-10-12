@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace RiskFirst.RestClient
 {
@@ -150,6 +151,35 @@ namespace RiskFirst.RestClient
             {
                 throw new RestClientException($"Failed to execute patch request to {request.Uri.AbsoluteUri}", ex);
             }
-        }       
+        }
+
+        public static async Task<HttpResponseMessage> PostAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Post, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
+        public static async Task<HttpResponseMessage> PutAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Put, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute put request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
     }
 }
