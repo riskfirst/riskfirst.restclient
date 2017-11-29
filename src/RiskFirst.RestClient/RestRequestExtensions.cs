@@ -89,10 +89,10 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PostJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpResponseMessage> PostJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken), JsonSerializerSettings settings = null)
         {
             var content = new StringContent(
-                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
+                    JsonConvert.SerializeObject(body, settings), System.Text.Encoding.UTF8, "application/json");
 
             try
             {
@@ -111,10 +111,10 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpResponseMessage> PutJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken), JsonSerializerSettings settings = null)
         {
             var content = new StringContent(
-                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
+                    JsonConvert.SerializeObject(body, settings), System.Text.Encoding.UTF8, "application/json");
 
             try
             {
@@ -133,10 +133,10 @@ namespace RiskFirst.RestClient
         /// </summary>
         /// <param name="request">The rest request</param>
         /// <returns>HttpResponseMessage</returns>
-        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<HttpResponseMessage> PatchJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken), JsonSerializerSettings settings = null)
         {
             var content = new StringContent(
-                    JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
+                    JsonConvert.SerializeObject(body, settings), System.Text.Encoding.UTF8, "application/json");
 
             try
             {

@@ -21,7 +21,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithPathSegment("api")
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api", req.RequestUri.ToString());            
+            Assert.Equal($"{RootUri}/api", req.RequestUri.ToString());            
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithPathSegment("api")
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithPathSegment("entity")
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api/entity", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api/entity", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithPathSegments("api","entity",123)
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api/entity/123", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api/entity/123", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithPathSegments(new List<string> { "api", "entity", "123" })
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api/entity/123", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api/entity/123", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameter("foo","bar")
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameter("foo", "bar", "zoo")
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameter("foo", new[] { "bar", "zoo" })
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=bar&foo=zoo", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameter("foo", null)
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameters(new { foo = "bar" })
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace RiskFirst.RestClient.Tests
                             .WithQueryParameters(new Dictionary<string, object>() { { "foo", "bar" } })
                             .CreateRequestMessage(HttpMethod.Get);
 
-            Assert.StrictEqual($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
+            Assert.Equal($"{RootUri}/api?foo=bar", req.RequestUri.ToString());
         }
 
         [Fact]
