@@ -2,7 +2,6 @@ using System;
 using Xunit;
 using RiskFirst.RestClient;
 using System.Net.Http;
-using Moq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
