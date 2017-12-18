@@ -18,7 +18,7 @@ namespace RiskFirst.RestClient
             {
                 return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync(), settings);
             }
-            throw new RestResponseException(response.StatusCode, await response.Content.ReadAsStringAsync());
+            throw new RestResponseException(response.StatusCode, response.RequestMessage, await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace RiskFirst.RestClient
             {
                 return await response.Content.ReadAsStringAsync();
             }
-            throw new RestResponseException(response.StatusCode, await response.Content.ReadAsStringAsync());
+            throw new RestResponseException(response.StatusCode, response.RequestMessage, await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace RiskFirst.RestClient
             {
                 return await response.Content.ReadAsStreamAsync();
             }
-            throw new RestResponseException(response.StatusCode, await response.Content.ReadAsStringAsync());
+            throw new RestResponseException(response.StatusCode, response.RequestMessage, await response.Content.ReadAsStringAsync());
         }
 
         /// <summary>
