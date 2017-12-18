@@ -23,9 +23,10 @@
       v1.0.5 - Downgraded targetting to netstandard1.1;net45
       v1.0.6 - Added Additional extension methods to support non JSON requests
       v1.1.0 - Add json serializer settings to put/patch/post operations. Upgrade package dependencies
-      v1.1.1 - Modified exception message to send back response content instead of reason phrase.</PackageReleaseNotes>
-    <AssemblyVersion>1.1.0.1</AssemblyVersion>
-    <FileVersion>1.1.0.1</FileVersion>
+      v1.1.1 - Modified exception message to send back response content instead of reason phrase.
+      v1.1.2 - Work around .NET Framework query string ? prefix issue</PackageReleaseNotes>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>RiskFirst.RestClient.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
