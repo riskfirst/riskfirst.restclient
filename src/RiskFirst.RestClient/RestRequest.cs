@@ -158,13 +158,19 @@ namespace RiskFirst.RestClient
             if (values != null && values.Length > 0)
             {
                 var parameters = String.Join("&", values.Select(v => $"{param}={v?.ToString()}"));
-                this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
-                    ? parameters : $"&{parameters}";
+                this.uriBuilder.Query = String.IsNullOrEmpty(this.uriBuilder.Query)
+                    ? parameters
+                    : this.uriBuilder.Query[0] == '?'
+                        ? $"{this.uriBuilder.Query.Substring(1)}&{parameters}"
+                        : $"{this.uriBuilder.Query}&{parameters}";
             }
             else
             {
-                this.uriBuilder.Query += String.IsNullOrEmpty(this.uriBuilder.Query)
-                    ? $"{param}=" : $"&{param}=";
+                this.uriBuilder.Query = String.IsNullOrEmpty(this.uriBuilder.Query)
+                        ? $"{param}="
+                        : this.uriBuilder.Query[0] == '?'
+                            ? $"{this.uriBuilder.Query.Substring(1)}&{param}="
+                            : $"{this.uriBuilder.Query}&{param}=";
             }
             return this;
         }
