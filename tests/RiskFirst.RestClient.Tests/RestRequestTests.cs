@@ -131,6 +131,28 @@ namespace RiskFirst.RestClient.Tests
         }
 
         [Fact]
+        public void GivenQueryParametersAsArrayObject_UriIsValid()
+        {
+            var req = new Uri(RootUri).AsRestRequest()
+                            .WithPathSegment("api")
+                            .WithQueryParameters(new { foo = new string[] { "bar1", "bar2" } })
+                            .CreateRequestMessage(HttpMethod.Get);
+
+            Assert.Equal($"{RootUri}/api?foo=bar1&foo=bar2", req.RequestUri.ToString());
+        }
+
+        [Fact]
+        public void GivenQueryParametersAsListObject_UriIsValid()
+        {
+            var req = new Uri(RootUri).AsRestRequest()
+                            .WithPathSegment("api")
+                            .WithQueryParameters(new { foo = new List<string> { "bar1", "bar2" } })
+                            .CreateRequestMessage(HttpMethod.Get);
+
+            Assert.Equal($"{RootUri}/api?foo=bar1&foo=bar2", req.RequestUri.ToString());
+        }
+
+        [Fact]
         public void GivenQueryParametersAsDictionary_UriIsValid()
         {
             var req = new Uri(RootUri).AsRestRequest()
