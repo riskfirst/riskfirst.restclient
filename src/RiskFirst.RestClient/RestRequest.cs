@@ -187,7 +187,22 @@ namespace RiskFirst.RestClient
         {
             var props = values.GetType().GetTypeInfo().DeclaredProperties;
             foreach (var prop in props)
-                WithQueryParameter(prop.Name, prop.GetValue(values, null)?.ToString());
+            {
+                var propValue = prop.GetValue(values, null);
+
+                if (propValue is IEnumerable<object>)
+                {
+                    foreach (var obj in (IEnumerable<object>)propValue)
+                    {
+                        WithQueryParameter(prop.Name, obj?.ToString());
+                    }
+                }
+                else
+                {
+                    WithQueryParameter(prop.Name, propValue?.ToString());
+                }
+            }
+
             return this;
         }
 
