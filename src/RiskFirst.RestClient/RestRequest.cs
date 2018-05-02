@@ -183,6 +183,7 @@ namespace RiskFirst.RestClient
         /// </remarks>
         /// <param name="values">Any object to add to the parameters</param>
         /// <returns>Current RestRequest instance</returns>
+        [Obsolete("This method is deprecated, use 'WithQueryParameters(IDictionary<string,object> values)' instead.")]
         public RestRequest WithQueryParameters(object values)
         {
             var props = values.GetType().GetTypeInfo().DeclaredProperties;
