@@ -25,7 +25,9 @@
       v1.1.0 - Add json serializer settings to put/patch/post operations. Upgrade package dependencies
       v1.1.1 - Modified exception message to send back response content instead of reason phrase.
       v1.1.2 - Work around .NET Framework query string ? prefix issue
-      v1.1.3 - Add HTTP method and uri to exception message</PackageReleaseNotes>
+      v1.1.3 - Add HTTP method and uri to exception message
+      v1.1.4 - Add Body property to RestResponseException and update for BC
+    </PackageReleaseNotes>
     <AssemblyVersion>1.1.3.0</AssemblyVersion>
     <FileVersion>1.1.3.0</FileVersion>
     <SignAssembly>True</SignAssembly>

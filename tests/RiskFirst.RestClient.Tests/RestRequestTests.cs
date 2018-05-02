@@ -176,5 +176,26 @@ namespace RiskFirst.RestClient.Tests
                 e => Assert.True(e.Key == "Foo" && e.Value.Single() == "Bar"),
                 e => Assert.Equal(2,e.Value.Count()));
         }
+
+        [Fact]
+        public void RestResponseException_ConstructorsWithVariousParemeters_DoNotFail()
+        {
+            var restResponseException = new RestResponseException(System.Net.HttpStatusCode.BadRequest, new HttpRequestMessage(), "", new Exception());
+            Assert.Equal(string.Empty, restResponseException.Body);
+            Assert.Equal("[GET]", restResponseException.Message);
+
+            var restResponseException2 = new RestResponseException(System.Net.HttpStatusCode.InternalServerError, new HttpRequestMessage(), null,"{}", new Exception());
+            Assert.Equal("{}", restResponseException2.Body);
+            Assert.Equal("[GET] {}", restResponseException2.Message);
+
+            var restResponseException3 = new RestResponseException(System.Net.HttpStatusCode.BadRequest, new HttpRequestMessage(), "test","{}");
+            Assert.Equal("{}", restResponseException3.Body);
+            Assert.Equal("[GET] test {}", restResponseException3.Message);
+
+            var restResponseException4 = new RestResponseException(System.Net.HttpStatusCode.BadRequest, new HttpRequestMessage(HttpMethod.Post,@"http://localhost/"), "test", new Exception());
+            Assert.Equal(string.Empty, restResponseException4.Body);
+            Assert.Equal(@"[POST]http://localhost/ test", restResponseException4.Message);
+
+        }
     }
 }
