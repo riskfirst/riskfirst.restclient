@@ -85,6 +85,28 @@ namespace RiskFirst.RestClient
         }
 
         /// <summary>
+        ///     Execute a delete request from the specified rest client with the body serialized as JSON
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static async Task<HttpResponseMessage> DeleteJsonAsync<T>(this RestRequest request, T body, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken), JsonSerializerSettings settings = null)
+        {
+            var content = new StringContent(
+                    JsonConvert.SerializeObject(body, settings), System.Text.Encoding.UTF8, "application/json");
+
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Delete, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
+
+        /// <summary>
         ///     Execute a post request from the specified rest client with the body serialized as JSON
         /// </summary>
         /// <param name="request">The rest request</param>
