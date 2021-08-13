@@ -102,7 +102,7 @@ namespace RiskFirst.RestClient
             }
             catch (Exception ex)
             {
-                throw new RestClientException($"Failed to execute post request to {request.Uri.AbsoluteUri}", ex);
+                throw new RestClientException($"Failed to execute delete request to {request.Uri.AbsoluteUri}", ex);
             }
         }
 
