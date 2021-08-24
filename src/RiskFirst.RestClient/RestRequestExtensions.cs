@@ -230,5 +230,23 @@ namespace RiskFirst.RestClient
             }
         }
 
+        /// <summary>
+        ///     Execute a delete request from the specified rest client
+        /// </summary>
+        /// <param name="request">The rest request</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static async Task<HttpResponseMessage> DeleteAsync(this RestRequest request, HttpContent content, HttpClient httpClient = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var requestMessage = request.CreateRequestMessage(HttpMethod.Delete, content);
+                var client = httpClient ?? DefaultHttpClient;
+                return await client.SendAsync(requestMessage, HttpCompletionOption.ResponseContentRead, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new RestClientException($"Failed to execute delete request to {request.Uri.AbsoluteUri}", ex);
+            }
+        }
     }
 }
