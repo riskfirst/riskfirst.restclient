@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/riskfirst/riskfirst.restclient</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>rest http dotnetcore</PackageTags>
-    <Version>1.2.3</Version>
+    <Version>1.2.4</Version>
     <PackageReleaseNotes>
       v0.0.1 - Initial release
       v0.0.2 - Changed usage of HttpClient, normalised With* methods.
@@ -31,9 +31,11 @@
       v1.2.1 - Added support for Delete method with JSON body
       v1.2.2 - Added support for Delete method with HttpContent body
       v1.2.3 - Added support for netstandard2.0 without dependency on System.Net.Http
+      v1.2.3 - Added support for netstandard2.0 without dependency on System.Net.Http
+      v1.2.4 - Patch Security Issue in netstandard 1.6
     </PackageReleaseNotes>
-    <AssemblyVersion>1.2.3.0</AssemblyVersion>
-    <FileVersion>1.2.3.0</FileVersion>
+    <AssemblyVersion>1.2.4.0</AssemblyVersion>
+    <FileVersion>1.2.4.0</FileVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>RiskFirst.RestClient.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -42,7 +44,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" Condition="'$(TargetFramework)'!='netstandard2.0'" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" Condition="'$(TargetFramework)'!='netstandard2.0'" />
   </ItemGroup>
 
 </Project>
